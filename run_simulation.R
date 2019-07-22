@@ -123,8 +123,8 @@ while (time_now < time_to_rescue) {
     # Noisy target observation relative to the speed of rescuer
     y <- target_x + chol(R) %*% rnorm(2,1);
     
-    # Randomly assign a very wrong measurement
-    if (runif(1, 0,1) < 0.1) {
+    # Randomly assign a very wrong measurement 10% of the time
+    if (runif(1, 0, 1) < 0.1) {
       y <-  target_x + 200^2 * rnorm(2,1);
     }
     
