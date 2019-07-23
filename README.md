@@ -3,6 +3,8 @@ Tracking a drifting space ship with predictive control models (which can be impl
 
 This is a port from Matlab to R of a previous control project.
 
+![Example of running the program](https://github.com/patricksavill/R-spaceship-tracking/blob/master/documentation_images/kalman_basic.gif)
+
 ## Environment setup
 For this simulation there is a spaceship with a broken engine out in space, captained by Major Tom. The task is to implement a rescuing ship that will reach Major Tom before his life support runs out, which will take a certain amount of time steps.
 
