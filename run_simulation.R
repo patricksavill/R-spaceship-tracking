@@ -57,7 +57,7 @@ X11() # Pop up in a window that will update later
 plot.new()
 # TODO label plots and figures, add axis labels, add legend
 
-plot(c(1, 2, 3, 3, 4), c(0, 0, 5, 6, 1), xlim = c(0, 1500), ylim = c(0, 1500),
+plot(target_x[1], target_x[2], xlim = c(0, 1500), ylim = c(0, 1500),
      axes=FALSE, xlab = "X position (m)", ylab = "Y position (m)")
 title("Spaceship tracking")
 box()
@@ -102,10 +102,8 @@ while (time_now < time_to_rescue) {
     # Get the environment of each class assigned to a variable
     this_ship <- eval(parse(text = rescue_ship_ids[ship_index]))
     
-    
-    # Assume boat will only be completed if it has
+    # Skip completed boats
     if (!is.infinite(this_ship$done)){
-      print("Rescuer has finished")
       next
     }
     
@@ -146,7 +144,7 @@ while (time_now < time_to_rescue) {
     stop_time = proc.time()[3]
     
     if (stop_time - start_time > computation_time){
-      print("Rescuer has overheated, having to pause it")
+      cat("Rescuer has overheated, having to pause it")
       this_ship$delayed <- TRUE
     }
     
@@ -178,12 +176,14 @@ while (time_now < time_to_rescue) {
       next
     }  
     
-    print(sqrt(sum((c(this_ship$x, this_ship$y) - target_x)^2)) )
+    # print(sqrt(sum((c(this_ship$x, this_ship$y) - target_x)^2)) )
     if (sqrt(sum((c(this_ship$x, this_ship$y) - target_x)^2)) < 20){
-      print(cat('Rescuer is finished at time', t))
-      this_ship$done <- t;
-      this_ship$x <- port_x[1];
-      this_ship$y <- port_x[2]
+      if (is.infinite(this_ship$done)){
+        cat('Rescuer is finished at time', time_now)
+        this_ship$done <- time_now
+        this_ship$x <- port_x[1]
+        this_ship$y <- port_x[2]
+      }
     }
 
     rescuer_colour = graph_colours[ship_index]
@@ -191,6 +191,6 @@ while (time_now < time_to_rescue) {
     points(this_ship$x, this_ship$y, col=rescuer_colour, pch=ship_index+1)
     
   }
-  Sys.sleep(0.1)
+  Sys.sleep(0.01)
 }
 

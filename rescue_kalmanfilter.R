@@ -104,12 +104,12 @@ rescue_kalmanfilter <- R6Class("rescue_kalmanfilter",  public = list(
       if (r_to_target < 20  && self$stop){
         self$stop = FALSE
         self$speed = 0
-        self$Q = self$error_radar_stationary
+        self$Q = self$error_stationary
       }
       else {
         self$stop = TRUE
         self$speed = 10
-        self$Q = self$error_radar_moving
+        self$Q = self$error_moving
       }
       
       self$direction = th_to_target
