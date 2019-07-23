@@ -55,7 +55,6 @@ port_x <- matrix(c(200, 100), nrow = 2)
 
 X11() # Pop up in a window that will update later
 plot.new()
-# TODO label plots and figures, add axis labels, add legend
 
 plot(target_x[1], target_x[2], xlim = c(0, 1500), ylim = c(0, 1500),
      axes=FALSE, xlab = "X position (m)", ylab = "Y position (m)")
@@ -64,7 +63,19 @@ box()
 axis(1, at = seq(0, 1500, 100), tck=-0.01)
 axis(2, at = seq(0, 1500, 100), tck=-0.01)
 
-graph_colours <- c('#0066CC', '#990000', '#333300', '#000000')
+graph_colours <- c('#0066CC', '#990000', '#333300', '#000000', '#000099')
+
+legend(
+  "topright",
+  inset = .05,
+  cex = 1,
+  title = "Legend",
+  pch = 1:(length(rescue_list)+1),
+  c("Major Tom", rescue_list),
+  horiz = FALSE,
+  col = graph_colours[c(1:(length(rescue_list)+1))],
+  bg = "grey96"
+)
 
 # Loop Simulation ---------------------------------------------------------
 
@@ -91,10 +102,8 @@ while (time_now < time_to_rescue) {
   
   target_x <- target_x + w
   
-  points(target_x[1], target_x[2])
-  #Sys.sleep(0.5)
-  
-  
+  points(target_x[1], target_x[2], col=graph_colours[1], pch=1)
+
   # --- Now run the rescue_ship_ids for this time step---
   
   
@@ -186,11 +195,13 @@ while (time_now < time_to_rescue) {
       }
     }
 
-    rescuer_colour = graph_colours[ship_index]
+    rescuer_colour = graph_colours[ship_index+1]
     
     points(this_ship$x, this_ship$y, col=rescuer_colour, pch=ship_index+1)
     
   }
-  Sys.sleep(0.01)
+  # Included so that the graph drawn is updated for a user to see the progression
+  # Certainly hampers speed of execution, should be removed if animation isn't needed
+  Sys.sleep(0.1)
 }
 
